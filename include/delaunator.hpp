@@ -6,6 +6,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <span>
 #include <utility>
 #include <vector>
 
@@ -17,7 +18,7 @@ inline size_t fast_mod(const size_t i, const size_t c) {
 }
 
 // Kahan and Babuska summation, Neumaier variant; accumulates less FP error
-inline double sum(const std::vector<double>& x) {
+inline double sum(std::span<const double> x) {
     double sum = x[0];
     double err = 0.0;
 
@@ -100,7 +101,7 @@ inline std::pair<double, double> circumcenter(
 
 struct compare {
 
-    std::vector<double> const& coords;
+    std::span<const double> coords;
     double cx;
     double cy;
 
@@ -173,7 +174,7 @@ struct DelaunatorPoint {
 class Delaunator {
 
 public:
-    std::vector<double> const& coords;
+    std::span<const double> coords;
     std::vector<std::size_t> triangles;
     std::vector<std::size_t> halfedges;
     std::vector<std::size_t> hull_prev;
@@ -181,7 +182,7 @@ public:
     std::vector<std::size_t> hull_tri;
     std::size_t hull_start;
 
-    Delaunator(std::vector<double> const& in_coords);
+    Delaunator(std::span<const double> in_coords);
 
     double get_hull_area();
 
@@ -204,7 +205,7 @@ private:
     void link(std::size_t a, std::size_t b);
 };
 
-inline Delaunator::Delaunator(std::vector<double> const& in_coords)
+inline Delaunator::Delaunator(std::span<const double> in_coords)
     : coords(in_coords),
       triangles(),
       halfedges(),
