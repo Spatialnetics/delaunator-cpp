@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.8)
 project(delaunator VERSION 0.4.0)
-set (CMAKE_CXX_STANDARD 14)
+
+add_library(delaunator-cpp INTERFACE)
+target_include_directories(delaunator-cpp INTERFACE include)
+
+option(BUILD_EXECUTABLES OFF)
+if(NOT BUILD_EXECUTABLES)
+    return()
+endif()
+
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
